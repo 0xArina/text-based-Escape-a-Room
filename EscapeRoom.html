@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<!-- 
+    TITLE               Assignment 1 "A simple text-based game"
+    AUTHOR              Arina Bagdasaryan
+    OBJECTIVE           The goal of this game is to escape a room. To achive it, 
+                        player needs to explore the room by clicking on options provided.
+    
+    DESIGN DESCRIPTION
+    DATA MODULES:       var windowAction[]  - array value that controls output text based on player actions, 
+                                              i.e. once a certain action happens, array value changes from 0 to 1 thus
+                                              conditional statement changes and user sees a different  ouput 
+
+    CODE MODULES:       function Windowf()  - executes when player clicks on Window button, outputs text description
+                        function Deskf()    - executes when player clicks on Desk button, outputs text description, 
+                                              creates additional buttons: Drawer and Window 
+                        btnD.on-click f()   - executes when player clicks on Drawer button from Deskf(), outputs text description
+                        btnW.on-click f()   - executes when player clicks on new Window button from btnD.onclick f(), outputs text description, increments array value
+                        function Doorf()    - executes when player clicks on Door button, outputs text description
+                        function Fridgef()  - executes when player clicks on Fridge button, outputs text description
+                        btnB.on-click f()   - executes when player clicks on Box button from Fridgef(), outputs text description
+                        btnDo.on-click f()  - executes when player clicks on new Door button from btnB.onclick f(), outputs text description
+-->
+<html>
+<head>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+        body {font-family: 'Open Sans', sans-serif;}
+    </style>
+    <title>Escape Room</title>
+    <script>
+        // Here I use a single-value array for a conditional statement because one of the assignment requirements is to have data modules
+        var windowAction = [0]
+        // Create condition and output appropriate description of Window
+        function Windowf() {
+            if (windowAction[0] == 0){ 
+                outputPara.innerHTML +="<br><br> >Look at Window. <br> The window is all dirty, you can't see anything. "
+            }
+            if (windowAction[0] == 1){ 
+                outputPara.innerHTML +="<br><br> >Look at Window. <br> The window is broken. The grills look solid, you can't break them. "
+            }
+        }   
+    
+        function Deskf() {
+            // Output description of Desk
+            outputPara.innerHTML += "<br><br> >Look at Desk. <br> You see surgical instruments lie on the desk in an organized manner. What might it mean?.. You notice a  "
+            
+            // Access outputPara
+            var p = document.getElementById("outputPara"); 
+            // Create a Drawer <button> element 
+            var btnD = document.createElement("BUTTON");   
+            // Insert text 
+            btnD.innerHTML = "Drawer";
+
+            // Create function for Drawer button
+            btnD.onclick = function(){
+                // Output description of Drawer
+                outputPara.innerHTML += "<br><br> >Look at Drawer. <br> It contains a hammer. Now you can break the "
+                // Create a Window <button> element
+                var btnW = document.createElement("BUTTON");   
+                btnW.innerHTML = "Window";
+
+                // Create function for new Window button
+                btnW.onclick = function(){
+                    // Output new description 
+                    outputPara.innerHTML += "<br><br> >Look at Window. <br> You broke the window with hammer! Oh no, you see window grills. You look through them and realize that you trapped inside a dense forest.";  
+                    // Update array value to change the description
+                    windowAction[0] = 1;
+                }
+                // Append Window button to paragraph
+                p.appendChild(btnW);
+            }
+            // Append Drawer button to paragraph
+            p.appendChild(btnD); 
+        } 
+
+        function Fridgef() {
+            // Output description of Fridge
+            outputPara.innerHTML +="<br><br> >Look at Fridge. <br> It contains different size jars with something strange inside. Hm.. You notice a small black "
+            // Access outputPara
+            var p = document.getElementById("outputPara"); 
+            // Create a Box <button> element
+            var btnB = document.createElement("BUTTON");  
+            btnB.innerHTML = "Box";
+
+            // Create function for Box button
+            btnB.onclick = function(){
+                outputPara.innerHTML += "<br><br> >Look at Box. <br> You opened the box and found a key! Haha this must be a real dumb kidnapper.. Try to open the ";  
+                
+                var btnDo = document.createElement("BUTTON");   
+                btnDo.innerHTML = "Door";
+
+                // Create function for new Door button
+                btnDo.onclick = function(){
+                    // Output Look at Door action
+                    outputPara.innerHTML += "<br><br> >Look at Door. <br> Yep! The key fits, it's time to get out! <br><br><br><b> Congradulations, you saved your organs from being sent for sell around the world! </b> ";  
+                    // Output end line
+                    endLine.innerHTML = "<b>(╯°□°）╯︵ ┻━┻ </b>"
+                    // Disable primary buttons
+                    document.getElementById("windowButton").disabled = true;
+                    document.getElementById("deskButton").disabled = true;
+                    document.getElementById("fridgeButton").disabled = true;
+                    document.getElementById("doorButton").disabled = true;
+                }
+                p.appendChild(btnDo);
+            }
+            p.appendChild(btnB);
+        }  
+        function Doorf() {
+            outputPara.innerHTML +="<br><br> >Look at Door. <br> It is locked! You need to find a key to get out!"
+        }  
+      
+    </script>
+</head>
+<body>
+    <h1>Escape a Room</h1>
+    <p id="descriptionPara">
+        You wake up on a hard surface in a small room. There is no lighting besides a single pendant bulb. <br>
+        You can see a <button id="windowButton" onclick="Windowf()">Window</button> , a <button id="deskButton" onclick="Deskf()">Desk</button> , 
+        a <button id="fridgeButton" onclick="Fridgef()">Fridge</button> and a <button id="doorButton" onclick="Doorf()">Door</button> .   
+    </p>
+    <p id ="outputPara"> </p>
+    <h1 id="endLine"> </h1>
+</body>
+</html>
