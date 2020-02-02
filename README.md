@@ -1,3 +1,1 @@
-# text-based-Escape-a-Room
-IMD3006 A simple text based game using Javascript <br>
 ![](escape.png)
